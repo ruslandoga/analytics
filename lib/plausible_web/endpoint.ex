@@ -1,7 +1,12 @@
 defmodule PlausibleWeb.Endpoint do
   use Plausible
   use Sentry.PlugCapture
-  use Phoenix.Endpoint, otp_app: :plausible
+
+  # on_ee do
+  #   use Phoenix.Endpoint, otp_app: :plausible
+  # else
+  use SiteEncrypt.Phoenix.Endpoint, otp_app: :plausible
+  # end
 
   @session_options [
     # key to be patched
@@ -113,4 +118,39 @@ defmodule PlausibleWeb.Endpoint do
     |> Application.fetch_env!(__MODULE__)
     |> Keyword.fetch!(key)
   end
+
+  # on_ce do
+  @impl SiteEncrypt
+  def certification do
+    domain = System.fetch_env!("SITE_ENCRYPT_DOMAIN")
+
+    email =
+      case PlausibleWeb.Email.mailer_email_from() do
+        {_, email} -> email
+        email when is_binary(email) -> email
+      end
+
+    mode = System.get_env("SITE_ENCRYPT_MODE", "manual") |> String.to_existing_atom()
+    client = System.get_env("SITE_ENCRYPT_CLIENT", "native") |> String.to_existing_atom()
+
+    db_folder =
+      System.get_env("SITE_ENCRYPT_DB_FOLDER", Path.join(System.tmp_dir!(), "site_encrypt_db"))
+
+    directory_url =
+      System.get_env(
+        "SITE_ENCRYPT_DIRECTORY_URL",
+        "https://acme-staging-v02.api.letsencrypt.org/directory"
+      )
+
+    SiteEncrypt.configure(
+      mode: mode,
+      client: client,
+      domains: [domain],
+      emails: [email],
+      db_folder: db_folder,
+      directory_url: directory_url
+    )
+  end
+
+  # end
 end

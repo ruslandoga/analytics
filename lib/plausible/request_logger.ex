@@ -11,7 +11,7 @@ defmodule Plausible.RequestLogger do
     duration_ms = System.convert_time_unit(duration, :native, :millisecond)
     path = path_with_params(conn.request_path, conn.query_string)
 
-    Logger.info("(#{conn.status}) #{conn.method} #{path} took #{duration_ms}ms")
+    Logger.debug("(#{conn.status}) #{conn.method} #{path} took #{duration_ms}ms")
   end
 
   defp path_with_params(request_path, ""), do: request_path

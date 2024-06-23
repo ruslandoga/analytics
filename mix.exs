@@ -143,7 +143,9 @@ defmodule Plausible.MixProject do
       {:sweet_xml, "~> 0.7.4"},
       {:zstream, "~> 0.6.4"},
       {:con_cache, "~> 1.1.0"},
-      {:req, "~> 0.5.0"}
+      {:req, "~> 0.5.0"},
+      # {:site_encrypt, "~> 0.6.0", only: [:ce_test, :ce_dev, :ce]}
+      {:site_encrypt, "~> 0.6.0"}
     ]
   end
 

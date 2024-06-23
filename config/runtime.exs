@@ -61,7 +61,7 @@ listen_ip =
   )
 
 # System.get_env does not accept a non string default
-port = get_var_from_path_or_env(config_dir, "PORT") || 8000
+port = get_var_from_path_or_env(config_dir, "PORT", "8000") |> String.to_integer()
 
 base_url = get_var_from_path_or_env(config_dir, "BASE_URL")
 
