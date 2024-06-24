@@ -108,7 +108,7 @@ defmodule Plausible.MixProject do
       {:phoenix, "~> 1.7.0"},
       {:phoenix_view, "~> 2.0"},
       {:phoenix_ecto, "~> 4.0"},
-      {:phoenix_html, "~> 3.3", override: true},
+      {:phoenix_html, "~> 4.1", override: true},
       {:phoenix_live_reload, "~> 1.2", only: [:dev, :ce_dev]},
       {:phoenix_pubsub, "~> 2.0"},
       {:phoenix_live_view, "~> 0.18"},
